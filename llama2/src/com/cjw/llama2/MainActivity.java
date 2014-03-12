@@ -3,7 +3,7 @@ package com.cjw.llama2;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -12,8 +12,8 @@ public class MainActivity extends Activity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     	
-        final ImageView imageView  = (ImageView) findViewById(R.id.imageView1);
-        imageView.setOnTouchListener(new OnSwipeTouchListener(this.getApplicationContext()) {
+        final View mainView  = (View) findViewById(R.id.RelativeLayout1);
+        mainView.setOnTouchListener(new OnSwipeTouchListener(this.getApplicationContext()) {
             public void onSwipeTop() {
                 Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
             }
