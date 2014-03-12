@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 						
 						for (int k = 0; k < pool.size(); k++) {
 							Tile pt = pool.get(k);
-							if (current.isLocation(pt.x, pt.y)) {
+							if (neighbour.isLocation(pt.x, pt.y)) {
 								pool.remove(k);
 								break;
 							}
