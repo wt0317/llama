@@ -34,19 +34,19 @@ public class MainActivity extends Activity {
             public void onSwipeTop() {
 //            	imageView.startAnimation(upAnimation);
 //                Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
-            	evaluate(false, -1);
+            	evaluate(false, 1);
             }
             public void onSwipeRight() {
 //                Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
-            	evaluate(true, 1);
+            	evaluate(true, -1);
             }
             public void onSwipeLeft() {
 //                Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
-            	evaluate(true, -1);
+            	evaluate(true, 1);
             }
             public void onSwipeBottom() {
 //                Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
-            	evaluate(false, 1);
+            	evaluate(false, -1);
             }
         });
         
@@ -106,28 +106,26 @@ public class MainActivity extends Activity {
 				Node neighbour;
 				if (orientation) {
 					current = grid[a][b];
-					neighbour = grid[a][b+increment];
+					neighbour = grid[a][b-increment];
 				} else {
 					current = grid[b][a];
-					neighbour = grid[b+increment][a];
+					neighbour = grid[b-increment][a];
 				}
 				
-				if (current.value > 0 && neighbour.value == 0) {
-					// move
-					neighbour.value = current.value;
-					current.value = 0;
-					b = b - increment * 2;
-					Log.d("cw","going to " + b);
-					
-				} else if (!neighbour.flag && neighbour.value == current.value && current.value > 0) {
-					// crush
-					neighbour.value++;
-					current.value = 0;
-					neighbour.flag = true;
-					Log.d("cw","crush!");
+				if (current.value > 0) {
+					if (neighbour.value == 0) {
+						// move
+						neighbour.value = current.value;
+						current.value = 0;
+						if (b-increment > 0 && b-increment < 3)
+							b = b - increment * 2;
+					} else if (!neighbour.flag && neighbour.value == current.value) {
+						// crush
+						neighbour.value++;
+						current.value = 0;
+						neighbour.flag = true;
+					}
 				}
-				
-				Log.d("cw","finished");
 			}
 		}
 		for (int i = 0; i < 4; i++) {
