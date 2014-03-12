@@ -100,6 +100,8 @@ public class MainActivity extends Activity {
 								break;
 							}
 						}
+						
+						pool.add(current);
 
 						if (b-increment > 0 && b-increment < 3)
 							b = b - increment * 2;
@@ -108,8 +110,9 @@ public class MainActivity extends Activity {
 						neighbour.flag = true;
 						neighbour.value++;
 						current.value = 0;
+						
+						pool.add(current);
 					}
-					pool.add(current);
 				}
 			}
 		}
