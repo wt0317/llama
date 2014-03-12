@@ -3,6 +3,8 @@ package com.cjw.llama2;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -76,6 +78,7 @@ public class MainActivity extends Activity {
 	private void evaluate(boolean horizontal, int increment) {
 		Tile current;
 		Tile neighbour;
+		boolean validMove = false;
 		int temp = (increment == 1) ? 1 : 2;
 		for (int a = 0; a < 4; a++) {
 			for (int b = temp; b > -1 && b < 4; b+=increment){
@@ -105,6 +108,8 @@ public class MainActivity extends Activity {
 
 						if (b-increment > 0 && b-increment < 3)
 							b = b - increment * 2;
+						
+						validMove = true;
 					} else if (!neighbour.flag && neighbour.value == current.value) {
 						// crush
 						neighbour.flag = true;
@@ -112,11 +117,14 @@ public class MainActivity extends Activity {
 						current.value = 0;
 						
 						pool.add(current);
+						
+						validMove = true;
 					}
 				}
 			}
 		}
-		seed(1);
+		if (validMove)
+			seed(1);
 		for (int i = 0; i < 4; i++) {
         	for (int j = 0; j < 4; j++) {
         		int resId = getResources().getIdentifier(String.format("textView%s%s", i, j), "id", getPackageName());
@@ -125,5 +133,45 @@ public class MainActivity extends Activity {
         		grid[i][j].flag = false;
         	}
         }
+		if (pool.isEmpty() && isNoMoreMoves(horizontal)) {
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+	        alertDialog.setTitle("Game Over");
+	        alertDialog.setMessage("Play again?");
+	        alertDialog.show();
+		}
+	}
+	
+	private boolean isNoMoreMoves(boolean horizontal) {
+		Tile current;
+		Tile neighbour;
+		for (int i = 0; i < 4; i++) {
+        	for (int j = 0; j < 3; j++) {
+        		if (horizontal) {	// check vertical first (by probability)
+					current = grid[j][i];
+					neighbour = grid[j+1][i];
+				} else {
+					current = grid[i][j];
+					neighbour = grid[i][j+1];
+				}
+        		
+        		if (current.value == neighbour.value)
+        			return false;
+        	}
+		}
+		for (int i = 0; i < 4; i++) {
+        	for (int j = 0; j < 3; j++) {
+        		if (horizontal) {	// check vertical first (by probability)
+        			current = grid[i][j];
+					neighbour = grid[i][j+1];
+				} else {
+					current = grid[j][i];
+					neighbour = grid[j+1][i];
+				}
+        		
+        		if (current.value == neighbour.value)
+        			return false;
+        	}
+		}
+		return true;
 	}
 }
