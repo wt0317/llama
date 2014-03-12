@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
         final View mainView  = findViewById(R.id.RelativeLayout1);
         mainView.setOnTouchListener(new OnSwipeTouchListener(this.getApplicationContext()) {
             public void onSwipeTop() {
-//            	imageView.startAnimation(upAnimation);
             	evaluate(false, 1);
             }
             public void onSwipeRight() {
@@ -45,7 +44,7 @@ public class MainActivity extends Activity {
         for (int i = 0; i < 4; i++) {
         	for (int j = 0; j < 4; j++) {
         		grid[i][j] = new Tile(0,false,i,j);
-        		pool.add(new Tile(0,false,i,j));
+        		pool.add(grid[i][j]);
         	}
         }
 
@@ -65,12 +64,12 @@ public class MainActivity extends Activity {
 		int index = (int) (Math.random() * size % size);
 		
 		Tile seeded = pool.get(index);
-		grid[seeded.x][seeded.y].value = 1;
+		seeded.value = 1;
 		
 		pool.remove(index);
 		
 		if (iterations > 1) {
-			seed(iterations-1);
+			seed(--iterations);
 		}
 	}
 	
@@ -96,14 +95,12 @@ public class MainActivity extends Activity {
 						
 						for (int k = 0; k < pool.size(); k++) {
 							Tile pt = pool.get(k);
-							if (neighbour.isLocation(pt.x, pt.y)) {
+							if (pt.equals(neighbour)) {
 								pool.remove(k);
 								break;
 							}
 						}
-						
-						pool.add(new Tile(0, false, current.x, current.y));
-						
+
 						if (b-increment > 0 && b-increment < 3)
 							b = b - increment * 2;
 					} else if (!neighbour.flag && neighbour.value == current.value) {
@@ -111,9 +108,8 @@ public class MainActivity extends Activity {
 						neighbour.flag = true;
 						neighbour.value++;
 						current.value = 0;
-						
-						pool.add(new Tile(0, false, current.x, current.y));
 					}
+					pool.add(current);
 				}
 			}
 		}
