@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
         
         for (int i = 0; i < 4; i++) {
         	for (int j = 0; j < 4; j++) {
-        		int resId = getResources().getIdentifier(String.format("textView%s%s", i+1, j+1), "id", getPackageName());
+        		int resId = getResources().getIdentifier(String.format("textView%s%s", i, j), "id", getPackageName());
         		TextView textView = (TextView) findViewById(resId);
 //        		Log.d("WI", textView.getText()+"");
         		textView.setText(grid[i][j].value+"");
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
 		}
 		for (int i = 0; i < 4; i++) {
         	for (int j = 0; j < 4; j++) {
-        		int resId = getResources().getIdentifier(String.format("textView%s%s", i+1, j+1), "id", getPackageName());
+        		int resId = getResources().getIdentifier(String.format("textView%s%s", i, j), "id", getPackageName());
         		TextView textView = (TextView) findViewById(resId);
         		textView.setText(grid[i][j].value+"");
         		grid[i][j].flag = false;
