@@ -26,6 +26,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         final View mainView  = findViewById(R.id.RelativeLayout1);
+        //added these to eventually be used to find the tile sizes/coordinates
+        int margin_h = 20;
+        int view_w = mainView.getWidth()-2*margin_h;
+        int view_h = mainView.getHeight();
+        int margin_v = (int) Math.round(((double) (view_h - view_w)) / 2);
+        int tile_sidelength = (int) Math.round(((double) view_w) / 4);
+        
         mainView.setOnTouchListener(new OnSwipeTouchListener(this.getApplicationContext()) {
             public void onSwipeTop() {
             	evaluate(false, 1);
